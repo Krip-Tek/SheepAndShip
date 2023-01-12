@@ -1,9 +1,7 @@
 import pygame
 
-from plsyer_name import Player_name_input
 
-
-class Intro_Menu:
+class New_game_intro:
     def __init__(self, g_settings, screen):
         self.g_set = g_settings
         self.screen = screen
@@ -21,10 +19,7 @@ class Intro_Menu:
             self.g_set.alpha += 3
             if self.g_set.alpha >= 255:
                 self.g_set.alpha_flag = 0
-                if self.g_set.intro_flag == 2:
-                    pygame.time.wait(5000)
-                else:
-                    pygame.time.wait(1000)
+                pygame.time.wait(500)
 
         else:
             self.g_set.alpha -= 4
@@ -33,6 +28,7 @@ class Intro_Menu:
                 self.g_set.intro_flag += 1
 
     def intro_load(self):
+        self.g_set.intro_flag = 1
         self.set_intro(self.g_set.intro_flag)
         self.intro_rect = self.intro_bk.get_rect()
         self.screen_rect = self.screen.get_rect()
@@ -40,7 +36,7 @@ class Intro_Menu:
 
         self.intro_bk_blit()
 
-        while self.g_set.intro_flag <= 2:
+        while self.g_set.intro_flag <= 6:
             self.check_event()
             self.set_intro(self.g_set.intro_flag)
             self.intro_drow()
@@ -48,11 +44,10 @@ class Intro_Menu:
             self.intro_bk_blit()
             pygame.display.flip()
             if self.g_set.intro_flag == 3:
-                self.pl_name_in = Player_name_input(self.g_set, self.screen)
-                self.name_in_intro()
+                pass
 
     def set_intro(self, i):
-        self.intro_bk = pygame.image.load(f"images/Intro/Intro_{i}.bmp")
+        self.intro_bk = pygame.image.load(f"images/Intro/Intro_game_{i}.bmp")
 
     def black_fill(self):
         self.screen.fill('black')
@@ -62,8 +57,4 @@ class Intro_Menu:
         self.intro_bk.set_alpha(self.g_set.alpha)
         self.screen.blit(self.intro_bk, self.intro_rect)
 
-    def name_in_intro(self):
-        self.intro_bk = pygame.image.load(f"images/Intro/Intro_{3}.bmp")
-        self.intro_bk.set_alpha(255)
-        self.screen.blit(self.intro_bk, self.intro_rect)
-        self.g_set.name_in = self.pl_name_in.player_name_in()
+

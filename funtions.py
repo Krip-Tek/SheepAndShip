@@ -5,6 +5,12 @@ from random import *
 from rif import Rif
 from game_settings import GameSettings
 from records import Records
+from new_game_intro import New_game_intro
+
+def menu_music(sound_name):
+    pygame.mixer.music.load(f'sounds/{sound_name}.mp3')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.5)
 
 
 def wind_rose_time(g_settings, wind_rose):
@@ -171,9 +177,16 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
         if not g_settings.game_active and not g_settings.menu_flag:
             g_settings.game_active = True
             g_settings.pause_flag = False
+
         else:
             g_settings.menu_flag = False
             g_settings.game_active = True
+            if g_settings.new_game_intro:
+                n_g_intro = New_game_intro(g_settings, screen)
+                n_g_intro.intro_load()
+                g_settings.new_game_intro = False
+            pygame.mixer.music.stop()
+            menu_music('ship_song')
 
     elif buttons[3].rect.collidepoint(mouse_x, mouse_y):  # Нажата клавиша выход
         if g_settings.pause_flag:
@@ -186,7 +199,9 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
 
         elif g_settings.menu_flag:
             score_save(g_settings, players)
-            exit()
+            g_settings.menu_flag = False
+            g_settings.ALL_game = False
+
 
     elif buttons[2].rect.collidepoint(mouse_x, mouse_y) and g_settings.menu_flag:  # Рекорды
         g_settings.menu_flag = False
@@ -218,11 +233,15 @@ def check_event(g_settings, wind_rose, ship, players):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             score_save(g_settings, players)
-            exit()
+            g_settings.ALL_game = False
 
         elif event.type == pygame.KEYDOWN:
             skin_load(event, g_settings, ship)
             pause_start(event, g_settings)
+            if event.key == pygame.K_LALT and event.key == pygame.K_F4:
+                g_settings.game_active = False
+                g_settings.menu_flag = False
+                g_settings.ALL_game = False
 
         elif event.type == pygame.USEREVENT:
             wind_rose_time(g_settings, wind_rose)

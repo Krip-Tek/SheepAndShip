@@ -1,5 +1,5 @@
 import pygame
-
+import math
 
 class Ship:
     """Корабль"""
@@ -54,11 +54,15 @@ class Ship:
 
     def update(self, sp):
         """Движение корабля"""
-        if self.rect.left >= 0 and self.rect.right <= self.sc_rect.right:
-            speed_up = self.speed_up(sp)
-            self.g_s.ship_speed = (self.g_s.ship_speed+speed_up)*self.g_s.kof
-            self.g_s.ship_cord += self.g_s.ship_speed
-            self.rect.centerx = self.g_s.ship_cord
+        if self.rect.left <= 0:
+            self.g_s.ship_speed = math.fabs(self.g_s.ship_speed)
+        if self.rect.right >= self.sc_rect.right:
+            self.g_s.ship_speed = -self.g_s.ship_speed
+        #if self.rect.left >= 0 and self.rect.right <= self.sc_rect.right:
+        speed_up = self.speed_up(sp)
+        self.g_s.ship_speed = (self.g_s.ship_speed+speed_up)*self.g_s.kof
+        self.g_s.ship_cord += self.g_s.ship_speed
+        self.rect.centerx = self.g_s.ship_cord
 
     def sc_up(self, i, j):
         """Обновление скина корабля"""

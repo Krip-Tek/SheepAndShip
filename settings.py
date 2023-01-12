@@ -46,3 +46,12 @@ class Settings:
         # установка цветов корабля и фона
         self.skin_color  = 'red_ship'
         self.bk_color = 'red_bk'
+
+
+        self.intro_flag = 1
+        self.alpha_flag = 1
+        self.alpha = 1
+
+        self.new_game_intro = True
+
+        self.ALL_game = True

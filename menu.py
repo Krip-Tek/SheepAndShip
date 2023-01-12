@@ -17,7 +17,6 @@ class Menu:
     def set_bk_color(self, color):
         self.backscreen = pygame.image.load(f"images/Menu/{color}.bmp")
 
-
     def button_move(self, mouse_x, mouse_y):
         if self.buttons[0].rect.collidepoint(mouse_x, mouse_y):
             self.buttons[0] = Button(self.screen,
@@ -84,6 +83,11 @@ class Menu:
                         g_settings.pause_flag = False
                         g_settings.game_active = True
 
+                elif event.key == pygame.K_LALT and event.key == pygame.K_F4:
+                    self.g_set.game_active = False
+                    self.g_set.menu_flag = False
+                    self.g_set.ALL_game = False
+
             elif self.g_set.game_active:
                 if event.type == pygame.KEYDOWN:
                     f.pause_start(event, self.g_set)
@@ -93,9 +97,6 @@ class Menu:
             self.button_move(mouse_x, mouse_y)
 
 
-
-
-
     def backscreen_blit(self):
         self.screen.blit(self.backscreen, self.screen_rect)
 
@@ -103,7 +104,9 @@ class Menu:
         for but in self.buttons:
             but.button_draw()
 
-    def menu_load(self, rifs, players, g_settings, screen,ship):
+    def menu_load(self, rifs, players, g_settings, screen, ship):
+        pygame.mixer.music.stop()
+        f.menu_music('ship_song_menu')
         while self.g_set.menu_flag:
             self.check_event(rifs, players, g_settings, screen, ship)
             self.set_bk_color(g_settings.bk_color)

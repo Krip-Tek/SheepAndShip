@@ -3,8 +3,8 @@ import funtions as f
 from button import Button
 from ship import Ship
 
-class GameSettings:
 
+class GameSettings:
     def __init__(self, g_settings, screen, ship):
 
         self.g_set = g_settings
@@ -25,19 +25,18 @@ class GameSettings:
                     self.g_set.menu_flag = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                f.ship_skin_set(self.g_set, self.buttons, mouse_x, mouse_y,self.ship)
-
+                f.ship_skin_set(self.g_set, self.buttons, mouse_x, mouse_y, self.ship)
 
     def button_init(self):
 
         red_ship = Button(self.screen,
-                             "red_ship", -260, -10)
+                          "red_ship", -260, -10)
         yellow_ship = Button(self.screen,
-                                 "yellow_ship", 100, -10)
+                             "yellow_ship", 100, -10)
         green_ship = Button(self.screen,
-                                "green_ship", 285, -10)
+                            "green_ship", 285, -10)
         black_ship = Button(self.screen,
-                             "black_ship", -82, -10)
+                            "black_ship", -82, -10)
 
         self.buttons = [red_ship, yellow_ship, green_ship, black_ship]
         return self.buttons
@@ -51,7 +50,6 @@ class GameSettings:
 
     def g_set_load(self):
         while self.g_set.g_settings_flag:
-
             self.check_event()
             self.backscreen_blit()
             self.button_draw()
