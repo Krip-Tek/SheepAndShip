@@ -51,12 +51,12 @@ def rif_spawn(screen, surf, g_s, rifs):
 
 
 def rifs_spawn(screen, rifs, g_settings):
-    rif = Rif(randrange(0, g_settings.screen_wigth, 10), 0, screen, rifs, g_settings)
+    rif = Rif(randrange(0, g_settings.screen_width, 10), 0, screen, rifs, g_settings)
     rif_wigth = rif.get_rif_wigth()
     buf = rif.get_rif_wigth() * 5  # Расстояние между рифами по горизонтали
     position = 0
     rand_y = -50
-    while g_settings.screen_wigth > position + rif_wigth * 2:
+    while g_settings.screen_width > position + rif_wigth * 2:
         position += buf
         shans = randrange(1, 100)  # Шанс спавна рифа
         shans_2 = randrange(40, 60)  # Шанс необходимый шанс для спавна рифа
@@ -253,4 +253,4 @@ def screen_up(screen, g_settings, rifs, ship, t_score, top_scor):
     rifs.update(g_settings.screen_height, g_settings.rif_speed)
     rifs.draw(screen)
     screen.blit(top_scor, (25, 25))
-    screen.blit(t_score, (g_settings.screen_wigth - 200, 25))
+    screen.blit(t_score, (g_settings.screen_width - 200, 25))
