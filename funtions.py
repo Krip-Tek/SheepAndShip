@@ -268,4 +268,4 @@ def screen_up(screen, g_settings, rifs, ship, t_score, top_scor):  # Отрис�
     rifs.update(g_settings.screen_height, g_settings.rif_speed)
     rifs.draw(screen)
     screen.blit(top_scor, (25, 25))
-    screen.blit(t_score, (g_settings.screen_wigth - 200, 25))
+    screen.blit(t_score, (g_settings.screen_width - 200, 25))

@@ -21,7 +21,7 @@ def main():
 
         pygame.time.set_timer(pygame.USEREVENT, 1000)
 
-        screen = pygame.display.set_mode((g_settings.screen_wigth,
+        screen = pygame.display.set_mode((g_settings.screen_width,
                                           g_settings.screen_height),)
         # pygame.SCALED | pygame.NOFRAME | pygame.RESIZABLE | pygame.FULLSCREEN
         int_set = Intro_Menu(g_settings, screen)
