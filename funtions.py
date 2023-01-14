@@ -63,12 +63,12 @@ def rif_spawn(screen, surf, g_s, rifs):  # Спаун рифов
 
 
 def rifs_spawn(screen, rifs, g_settings):  # генерация рифов
-    rif = Rif(randrange(0, g_settings.screen_wigth, 10), 0, screen, rifs, g_settings)
+    rif = Rif(randrange(0, g_settings.screen_width, 10), 0, screen, rifs, g_settings)
     rif_wigth = rif.get_rif_wigth()
     buf = rif.get_rif_wigth() * 5  # Расстояние между рифами по горизонтали
     position = 0
     rand_y = -50
-    while g_settings.screen_wigth > position + rif_wigth * 2:
+    while g_settings.screen_width > position + rif_wigth * 2:
         position += buf
         shans = randrange(1, 100)  # Шанс спавна рифа
         shans_2 = randrange(40, 60)  # Шанс необходимый шанс для спавна рифа
@@ -221,10 +221,6 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
 
         rec_board = Records(g_settings, screen)
         rec_board.set_load()
-
-    elif buttons[1].rect.collidepoint(mouse_x, mouse_y) and g_settings.menu_flag:  # Настройки
-        g_settings.menu_flag = False
-        g_settings.g_settings_flag = True
 
         g_s = GameSettings(g_settings, screen, ship)
         g_s.g_set_load()
