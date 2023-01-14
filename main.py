@@ -17,8 +17,10 @@ def main():
     def run_game():
 
         clock = pygame.time.Clock()
-        pygame.time.set_timer(pygame.USEREVENT, 1000)
         g_settings = Settings()
+
+        pygame.time.set_timer(pygame.USEREVENT, (1000 * f.rand_time_rotate()))
+
         screen = pygame.display.set_mode((g_settings.screen_wigth,
                                           g_settings.screen_height),)
         # pygame.SCALED | pygame.NOFRAME | pygame.RESIZABLE | pygame.FULLSCREEN
@@ -71,8 +73,9 @@ def main():
             while key:
                 pygame.time.wait(500)
                 key = 0
-            f.check_event(g_settings, wind_rose, ship, players)
 
+
+            f.check_event(g_settings, wind_rose, ship, players)
 
             clock.tick(g_settings.FPS)
             if g_settings.pause_flag:
