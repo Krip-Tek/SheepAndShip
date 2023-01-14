@@ -11,7 +11,7 @@ class Sail(pygame.sprite.Sprite):
         self.g_s = g_s
         self.screen = screen
         ship = Ship(screen, g_s)
-        self.image = pygame.image.load(f"images/SailSkin/black_sail.bmp")
+        self.image = pygame.image.load(f"images/SailSkin/red_sail.bmp")
         self.rect = self.image.get_rect()
         # ship.rect
         # self.sc_rect = screen.get_rect()

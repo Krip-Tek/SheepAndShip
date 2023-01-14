@@ -21,7 +21,6 @@ class Settings:
         self.i = 1
         self.j = 1
         self.w = 2
-        self.color_name = 'red'  # Папка со скинами кораблей
 
         self.kof = 1  # Значение коэффициента увеличивающего скороcть игры
         self.rif_speed = 0  # Вертикальная скороcть

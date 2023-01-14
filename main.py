@@ -57,8 +57,6 @@ def main():
             if g_settings.menu_flag:
                 menu.menu_load(rifs, players, g_settings, screen, ship, sail)
 
-            # ship.ship_skin_load(g_settings.color_path)
-
             top_score = f.top_score(g_settings, font)
             t_score = f.score_comp(g_settings, font)
 
