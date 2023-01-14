@@ -5,11 +5,12 @@ from ship import Ship
 
 
 class GameSettings:
-    def __init__(self, g_settings, screen, ship):
+    def __init__(self, g_settings, screen, ship, sail):
 
         self.g_set = g_settings
         self.screen = screen
         self.ship = ship
+        self.sail = sail
         self.backscreen = pygame.image.load(f"images/Settings/Settings_back.bmp")
         self.screen_rect = self.screen.get_rect()
         self.buttons = self.button_init()
@@ -25,7 +26,7 @@ class GameSettings:
                     self.g_set.menu_flag = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                f.ship_skin_set(self.g_set, self.buttons, mouse_x, mouse_y, self.ship)
+                f.ship_skin_set(self.g_set, self.buttons, mouse_x, mouse_y, self.ship, self.sail)
 
     def button_init(self):
 

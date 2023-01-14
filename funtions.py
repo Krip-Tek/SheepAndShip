@@ -15,16 +15,27 @@ def menu_music(sound_name, g_settings):  # Звуковое сопровожде
 
 
 def rand_time_rotate():  # Случайный выбор через сколько изменится направление ветра
-    time_r = randrange(10, 25+1)
+    time_r = randrange(10, 25 + 1)
     return time_r
 
 
-def ship_rotate(g_s, w_r):  # Вращение корабля
-    image, rect = w_r.rotate_ship(w_r.image, g_s.ship_angle)
+def ship_rotate(g_s, ship):  # Вращение корабля
+    image, rect = ship.rotate_ship(ship.image, g_s.ship_angle)
     if g_s.ship_rotate_left and g_s.ship_angle > -90:
         g_s.ship_angle -= 1 % 360
+        g_s.sail_angle -= 1 % 360
     if g_s.ship_rotate_right and g_s.ship_angle < 90:
         g_s.ship_angle += 1 % 360
+        g_s.sail_angle += 1 % 360
+    return image, rect
+
+
+def sail_rotate(g_s, sail):  # Вращение паруса
+    image, rect = sail.rotate_sail(sail.image, g_s.sail_angle)
+    if g_s.sail_rotate_left and g_s.sail_angle > g_s.ship_angle - 90:
+        g_s.sail_angle -= 1.5 % 360
+    if g_s.sail_rotate_right and g_s.sail_angle < g_s.ship_angle + 90:
+        g_s.sail_angle += 1.5 % 360
     return image, rect
 
 
@@ -51,21 +62,21 @@ def score_save(g_s, players):  # Сохранение счёта игрока
 
 
 def top_score(g_s, f):
-    top_scor = f.render("Рекорд: "+str(g_s.top_score), 1, (95, 0, 144))
+    top_scor = f.render("Рекорд: " + str(g_s.top_score), 1, (95, 0, 144))
     return top_scor
 
 
 def score_comp(g_s, f):  # Счётчик очков игрока
 
-    g_s.point_y += g_s.rif_speed*g_s.kof
-    t_score = f.render("Овечки: "+str(g_s.score), 1, (95, 0, 144))
+    g_s.point_y += g_s.rif_speed * g_s.kof
+    t_score = f.render("Овечки: " + str(g_s.score), 1, (95, 0, 144))
     return t_score
 
 
 def rif_spawn(screen, surf, g_s, rifs):  # Спаун рифов
     surf.fill(g_s.screen_color)
     screen.blit(surf, (10, g_s.point_y))
-    g_s.point_score += g_s.rif_speed*g_s.kof
+    g_s.point_score += g_s.rif_speed * g_s.kof
     if g_s.point_y >= 150:  # Условие спавна рифов
         g_s.point_y = 0
         rifs_spawn(screen, rifs, g_s)
@@ -131,11 +142,11 @@ def speed_up(g_s, ship):  # Обновление скорости корабля
     g_s.rif_speed, g_s.ship_speed = ship.s_l[g_s.w][g_s.i][g_s.j]
 
 
-def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship):  # Уствновка цвета паруса в настройках игры
+def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship, sail):  # Уствновка цвета паруса в настройках игры
     if buttons[0].rect.collidepoint(mouse_x, mouse_y):
         g_settings.skin_color = 'red_ship'
         g_settings.bk_color = 'red_bk'
-        g_settings.color_path = 'red'
+        g_settings.color_name = 'red_sail'
 
         g_settings.g_settings_flag = False
         g_settings.menu_flag = True
@@ -143,7 +154,7 @@ def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship):  # Уствно�
     if buttons[1].rect.collidepoint(mouse_x, mouse_y):
         g_settings.skin_color = 'yellow_ship'
         g_settings.bk_color = 'yellow_bk'
-        g_settings.color_path = 'yellow'
+        g_settings.color_name = 'yellow_sail'
 
         g_settings.g_settings_flag = False
         g_settings.menu_flag = True
@@ -151,7 +162,7 @@ def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship):  # Уствно�
     if buttons[2].rect.collidepoint(mouse_x, mouse_y):
         g_settings.skin_color = 'green_ship'
         g_settings.bk_color = 'green_bk'
-        g_settings.color_path = 'green'
+        g_settings.color_name = 'green_sail'
 
         g_settings.g_settings_flag = False
         g_settings.menu_flag = True
@@ -159,15 +170,16 @@ def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship):  # Уствно�
     if buttons[3].rect.collidepoint(mouse_x, mouse_y):
         g_settings.skin_color = 'black_ship'
         g_settings.bk_color = 'black_bk'
-        g_settings.color_path = 'black'
+        g_settings.color_name = 'black_sail'
 
         g_settings.g_settings_flag = False
         g_settings.menu_flag = True
 
-    ship.ship_skin_load(g_settings.color_path)
+    sail.sail_skin_load(g_settings.color_name)
 
 
-def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, screen, ship):  # Проверка нажатия клафиш в меню
+def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, screen,
+                      ship, sail):  # Проверка нажатия клафиш в меню
     if buttons[0].rect.collidepoint(mouse_x, mouse_y):  # Загрузка меню
 
         if not g_settings.game_active and not g_settings.menu_flag:
@@ -211,7 +223,7 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
         g_settings.menu_flag = False
         g_settings.g_settings_flag = True
 
-        g_s = GameSettings(g_settings, screen, ship)
+        g_s = GameSettings(g_settings, screen, ship, sail)
         g_s.g_set_load()
 
 
@@ -233,10 +245,17 @@ def check_event(g_settings, wind_rose, ship, players):  # Проверка вс�
             g_settings.ALL_game = False
 
         elif event.type == pygame.KEYDOWN:
+            # Включение флагов на поворот корабля
             if event.key == pygame.K_a:
                 g_settings.ship_rotate_left = True
             if event.key == pygame.K_d:
                 g_settings.ship_rotate_right = True
+            # Включение флагов на поворот паруса
+            if event.key == pygame.K_j:
+                g_settings.sail_rotate_left = True
+            if event.key == pygame.K_l:
+                g_settings.sail_rotate_right = True
+
             pause_start(event, g_settings)
             if event.key == pygame.K_LALT and event.key == pygame.K_F4:
                 g_settings.game_active = False
@@ -244,10 +263,19 @@ def check_event(g_settings, wind_rose, ship, players):  # Проверка вс�
                 g_settings.ALL_game = False
 
         elif event.type == pygame.KEYUP:
+            # Выключение флагов на поворот корабля
             if event.key == pygame.K_a:
                 g_settings.ship_rotate_left = False
             if event.key == pygame.K_d:
                 g_settings.ship_rotate_right = False
+
+            # Выключение флагов на поворот паруса
+            if event.key == pygame.K_j:
+                g_settings.sail_rotate_left = False
+            if event.key == pygame.K_l:
+                g_settings.sail_rotate_right = False
+            print(g_settings.ship_angle)
+            print(g_settings.sail_angle)
 
         elif event.type == pygame.USEREVENT:
             # Углы на которые поворачивается основа направления ветра

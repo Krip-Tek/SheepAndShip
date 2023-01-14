@@ -4,6 +4,7 @@ import json
 from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
+from sail import Sail
 from wind_rose import WindRose
 from menu import Menu
 from intro_menu import Intro_Menu
@@ -40,6 +41,7 @@ def main():
         wind_rose = WindRose(screen)  # Инициализация розы ветров
 
         ship = Ship(screen, g_settings)  # Инициализация корабля
+        sail = Sail(screen, g_settings)  # Инициализация паруса
 
         if players and g_settings.name_in in players.keys():
             g_settings.top_score = players[g_settings.name_in]
@@ -53,7 +55,7 @@ def main():
         while g_settings.ALL_game:
 
             if g_settings.menu_flag:
-                menu.menu_load(rifs, players, g_settings, screen, ship)
+                menu.menu_load(rifs, players, g_settings, screen, ship, sail)
 
             # ship.ship_skin_load(g_settings.color_path)
 
@@ -65,6 +67,9 @@ def main():
 
             image, rect = f.ship_rotate(g_settings, ship)
             ship.ship_blit(image, rect)
+
+            image, rect = f.sail_rotate(g_settings, sail)
+            sail.sail_blit(image, rect)
 
             image, rect = f.wind_rose_time(g_settings, wind_rose)
             wind_rose.wind_rose_bilt(image, rect)
@@ -80,7 +85,7 @@ def main():
 
             clock.tick(g_settings.FPS)
             if g_settings.pause_flag:
-                menu.pause_load(rifs, players, g_settings, screen, ship)
+                menu.pause_load(rifs, players, g_settings, screen, ship, sail)
 
     run_game()
     pygame.quit()

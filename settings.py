@@ -21,7 +21,7 @@ class Settings:
         self.i = 1
         self.j = 1
         self.w = 2
-        self.color_path = 'red'  # Папка со скинами кораблей
+        self.color_name = 'red'  # Папка со скинами кораблей
 
         self.kof = 1  # Значение коэффициента увеличивающего скороcть игры
         self.rif_speed = 0  # Вертикальная скороcть
@@ -54,6 +54,9 @@ class Settings:
         self.new_game_intro = True
 
         # Флаги управления поворота кораблем
-
         self.ship_rotate_left = False
         self.ship_rotate_right = False
+
+        # Флаги управления поворота паруса
+        self.sail_rotate_left = False
+        self.sail_rotate_right = False

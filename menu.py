@@ -65,7 +65,7 @@ class Menu:
         self.pause_buttons = [return_button, in_menu_button]
         return self.buttons
 
-    def check_event(self, rifs, players, g_settings, screen, ship):
+    def check_event(self, rifs, players, g_settings, screen, ship, sail):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
@@ -73,7 +73,7 @@ class Menu:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 f.check_play_button(rifs, self.g_set,
                                     self.button_init(),
-                                    mouse_x, mouse_y, players, screen, ship)
+                                    mouse_x, mouse_y, players, screen, ship, sail)
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     if g_settings.game_active:
@@ -104,20 +104,19 @@ class Menu:
         for but in self.buttons:
             but.button_draw()
 
-    def menu_load(self, rifs, players, g_settings, screen, ship):
+    def menu_load(self, rifs, players, g_settings, screen, ship, sail):
         pygame.mixer.music.stop()
         f.menu_music('ship_song_menu', g_settings)
         while self.g_set.menu_flag:
-            self.check_event(rifs, players, g_settings, screen, ship)
+            self.check_event(rifs, players, g_settings, screen, ship, sail)
             self.set_bk_color(g_settings.bk_color)
             self.backscreen_blit()
             self.button_draw()
             pygame.display.update()
 
-
-    def pause_load(self, rifs, players, g_settings, screen, ship):
+    def pause_load(self, rifs, players, g_settings, screen, ship, sail):
         while self.g_set.pause_flag:
-            self.check_event(rifs, players, g_settings, screen, ship)
+            self.check_event(rifs, players, g_settings, screen, ship, sail)
             self.pause_buttons[0].button_draw()
             self.pause_buttons[1].button_draw()
 
