@@ -24,7 +24,7 @@ class WindRose(pygame.sprite.Sprite):
         w, h = img.get_size()
         img2 = pygame.Surface((w * 2, h * 2), pygame.SRCALPHA)
         img2.blit(img, (w - pos[0], h - pos[1]))
-        return pygame.transform.rotate(img2, angle)
+        return pygame.transform.rotate(img2, -angle)
 
     def wind_rose_bilt(self, image, rect):
         self.screen.blit(image, rect)

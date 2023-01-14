@@ -13,6 +13,7 @@ class Settings:
         self.ship_angle = 0  # Угол поворота корабля
         self.sail_angle = 0  # Угол поворота паруса
         self.wind_rose_angle = 0  # Угол поворота Розы Ветров
+        self.basic_wing_angle = 0  # Базовый угол поворота Розы Ветров
         self.top_score = 0
         self.score = 0  # Очки игрока
         self.music_volume = 0  # Громкость музыки от 0 до 1

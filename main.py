@@ -19,7 +19,7 @@ def main():
         clock = pygame.time.Clock()
         g_settings = Settings()
 
-        pygame.time.set_timer(pygame.USEREVENT, (1000 * f.rand_time_rotate()))
+        pygame.time.set_timer(pygame.USEREVENT, 1000)
 
         screen = pygame.display.set_mode((g_settings.screen_wigth,
                                           g_settings.screen_height),)
@@ -73,7 +73,6 @@ def main():
             while key:
                 pygame.time.wait(500)
                 key = 0
-
 
             f.check_event(g_settings, wind_rose, ship, players)
 

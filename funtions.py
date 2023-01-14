@@ -15,13 +15,21 @@ def menu_music(sound_name, g_settings):  # Звуковое сопровожде
 
 
 def rand_time_rotate():  # Случайный выбор через сколько изменится направление ветра
-    a = randrange(3, 13, 3)
-    return a
+    time_r = randrange(10, 25+1)
+    return time_r
 
 
 def wind_rose_time(g_s, w_r):  # Поворот розы ветров
     image, rect = w_r.rotate_wind_rose(w_r.image, g_s.wind_rose_angle)
-    g_s.wind_rose_angle -= 1 % 360
+
+    if g_s.basic_wing_angle > g_s.wind_rose_angle and g_s.wind_rose_angle < 90:
+        g_s.wind_rose_angle += 0.25 % 360
+    elif g_s.basic_wing_angle < g_s.wind_rose_angle and g_s.wind_rose_angle > -90:
+        g_s.wind_rose_angle -= 0.25 % 360
+    else:
+        g_s.basic_wing_angle += randrange(-3, 3)  # Флуктуации ветра
+        pass
+
     return image, rect
 
 
@@ -248,7 +256,9 @@ def check_event(g_settings, wind_rose, ship, players):  # Проверка вс�
                 g_settings.ALL_game = False
 
         elif event.type == pygame.USEREVENT:
-            basic_wing_angle = randrange(-90, 90, 15)
+            # Углы на которые поворачивается основа направления ветра
+            g_settings.basic_wing_angle = (randrange(-90, 91, 15))
+            # Перерасчет времени нового события (через сколько)
             pygame.time.set_timer(pygame.USEREVENT, (1000 * rand_time_rotate()))
 
 
