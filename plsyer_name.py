@@ -7,7 +7,7 @@ class Player_name_input:
         self.screen = screen
         self.g_set = g_settings
         self.clock = pygame.time.Clock()
-        self.input_box = pygame.Rect(self.g_set.screen_wigth / 2 - 230, self.g_set.screen_height / 2 + 131, 440, 76)
+        self.input_box = pygame.Rect(self.g_set.screen_width / 2 - 230, self.g_set.screen_height / 2 + 131, 440, 76)
         self.color_inactive = pygame.Color('black')
         self.color_active = pygame.Color('black')
         self.color = self.color_inactive
