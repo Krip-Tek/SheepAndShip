@@ -1,7 +1,7 @@
 import pygame
 import json
 from random import *
-
+import math
 from rif import Rif
 from game_settings import GameSettings
 from records import Records
@@ -60,17 +60,25 @@ def score_save(g_s, players):  # Сохранение счёта игрока
     with open("records.json", "w") as file:
         json.dump(players, file, indent=4, ensure_ascii=False)
 
+    #
+    # def top_score(g_s, f):
+    #     top_scor = f.render("Рекорд: " + str(g_s.top_score), 1, (95, 0, 144))
+    #     return top_scor
+
 
 def top_score(g_s, f):
-    top_scor = f.render("Рекорд: " + str(g_s.top_score), 1, (95, 0, 144))
+    top_scor = f.render("С: " + str(g_s.rif_speed), 1, (95, 0, 144))
     return top_scor
 
 
 def score_comp(g_s, f):  # Счётчик очков игрока
-
     g_s.point_y += g_s.rif_speed * g_s.kof
-    t_score = f.render("Овечки: " + str(g_s.score), 1, (95, 0, 144))
+    t_score = f.render("У: " + str(g_s.ship_force_x), 1, (95, 0, 144))
     return t_score
+
+    # g_s.point_y += g_s.rif_speed * g_s.kof
+    # t_score = f.render("Овечки: " + str(g_s.score), 1, (95, 0, 144))
+    # return t_score
 
 
 def rif_spawn(screen, surf, g_s, rifs):  # Спаун рифов
@@ -114,10 +122,6 @@ def cleaning(g_s):  # Сброс положения корабля и парус
     g_s.ship_cord = 1366 / 2  # Центровка корабля по центру экрана после смерти
     g_s.ship_speed = 0  # Горизонтальная скорость
 
-    g_s.i = 1
-    g_s.j = 1
-    g_s.w = 2
-
 
 def collied_rifs(ship, rifs, g_s, players):  # Столкновение корабля и рифа
     for rect_rif in rifs:
@@ -136,10 +140,6 @@ def collied_rifs(ship, rifs, g_s, players):  # Столкновение кора
 def all_rif_remove(rifs):  # отчистка коллекции с рифами после смерти
     for rif in rifs:
         rifs.remove(rif)
-
-
-def speed_up(g_s, ship):  # Обновление скорости корабля
-    g_s.rif_speed, g_s.ship_speed = ship.s_l[g_s.w][g_s.i][g_s.j]
 
 
 def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship, sail):  # Уствновка цвета паруса в настройках игры
@@ -274,8 +274,6 @@ def check_event(g_settings, wind_rose, ship, players):  # Проверка вс�
                 g_settings.sail_rotate_left = False
             if event.key == pygame.K_l:
                 g_settings.sail_rotate_right = False
-            print(g_settings.ship_angle)
-            print(g_settings.sail_angle)
 
         elif event.type == pygame.USEREVENT:
             # Углы на которые поворачивается основа направления ветра
@@ -284,10 +282,39 @@ def check_event(g_settings, wind_rose, ship, players):  # Проверка вс�
             pygame.time.set_timer(pygame.USEREVENT, (1000 * rand_time_rotate()))
 
 
+def ship_move_force(g_s):
+    g_s.sail_force = g_s.wind_force*(math.cos(math.radians(g_s.wind_rose_angle) - math.radians(g_s.sail_angle)))
+    if g_s.sail_force <= 0:
+        g_s.sail_force = 0
+    g_s.ship_force_x = g_s.sail_force*(math.cos(math.radians(g_s.ship_angle)))
+    g_s.ship_force_y = g_s.sail_force*(math.sin(math.radians(g_s.ship_angle)))
+
+
+def speed_up(g_s):
+    g_s.max_speed_x = g_s.ship_force_x*5
+
+    if g_s.ship_force_x > 0 and g_s.rif_speed < g_s.max_speed_x:
+        g_s.rif_speed += g_s.ship_force_x/10
+
+    elif g_s.rif_speed > g_s.min_speed_x:
+        g_s.rif_speed -= 0.033  # Сила торможения
+        if g_s.rif_speed <= 0:
+            g_s.rif_speed = 0
+
+    # if g_s.ship_force_y and g_s.ship_speed < g_s.max_speed:
+    #     g_s.ship_speed += g_s.ship_force_y
+    # else:
+    #     g_s.ship_speed -= 0.4*g_s.wind_force
+
+
 def screen_up(screen, g_settings, rifs, ship, t_score, top_scor):  # Отрисовка экрана
     screen.fill(g_settings.screen_color)
-    speed_up(g_settings, ship)
-    rifs.update(g_settings.screen_height, g_settings.rif_speed)
+    ship_move_force(g_settings)
+
+    speed_up(g_settings)
+    rifs.update(g_settings)
+    ship.update(g_settings)
+
     rifs.draw(screen)
     screen.blit(top_scor, (25, 25))
     screen.blit(t_score, (g_settings.screen_width - 200, 25))

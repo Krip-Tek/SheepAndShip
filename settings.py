@@ -8,24 +8,36 @@ class Settings:
         self.ALL_game = True
 
         self.FPS = 60  # Частота кадров
-        self.ship_cord = 0
+
         self.ship_speed = 0  # Горизонтальная скорость
+        self.max_speed_x = 0
+        self.min_speed_x = 0
+        self.basic_ship_speed = 0
+
+        self.rif_speed = 0  # Вертикальная скороcть
+        self.basic_rid_speed = 0
+
         self.ship_angle = 0  # Угол поворота корабля
+
         self.sail_angle = 0  # Угол поворота паруса
+
         self.wind_rose_angle = 0  # Угол поворота Розы Ветров
         self.basic_wing_angle = 0  # Базовый угол поворота Розы Ветров
+
         self.top_score = 0
         self.score = 0  # Очки игрока
         self.music_volume = 0  # Громкость музыки от 0 до 1
 
-        self.i = 1
-        self.j = 1
-        self.w = 2
+        self.wind_force = 1  # сила ветра
+        self.sail_force = 0  # сила паруса
+        self.ship_force_x = 0  # сила корабля по X
+        self.ship_force_y = 0  # сила корабля по Y
+
+        # self.i = 1
+        # self.j = 1
+        # self.w = 2
 
         self.kof = 1  # Значение коэффициента увеличивающего скороcть игры
-        self.rif_speed = 0  # Вертикальная скороcть
-        self.rif_step = 0  #
-        self.rif_second = 1  #
 
         self.rif_spawn_time = 5  # Время очередного спавна рифов
 

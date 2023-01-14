@@ -13,23 +13,8 @@ class Sail(pygame.sprite.Sprite):
         ship = Ship(screen, g_s)
         self.image = pygame.image.load(f"images/SailSkin/red_sail.bmp")
         self.rect = self.image.get_rect()
-        # ship.rect
-        # self.sc_rect = screen.get_rect()
-        # self.rect.centerx = float(self.sc_rect.centerx)
-        # g_s.ship_cord = float(self.rect.centerx)
-        # self.rect.bottom = self.sc_rect.bottom - 150
-
         self.rect.center = ship.rect.center
-        # self.rect.centery = self.screen_rect.bottom - 80
 
-    # def update(self, sp):
-    #     """Движение корабля"""
-    #     if self.rect.left <= 0:
-    #         self.g_s.ship_speed = math.fabs(self.g_s.ship_speed)
-    #     if self.rect.right >= self.sc_rect.right:
-    #         self.g_s.ship_speed = -self.g_s.ship_speed
-    #
-    #     self.rect.centerx += self.g_s.ship_speed * self.g_s.kof
     def rotate_sail(self, image, angle):
         center_image = (image.get_width() // 2, image.get_height() // 2)
         image = self.rotate(image, center_image, angle)
