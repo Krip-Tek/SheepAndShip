@@ -62,7 +62,9 @@ def main():
             ship.update(g_settings.ship_speed)
             ship.blit()
 
-            wind_rose.wind_rose_bilt()
+            image, rect = f.wind_rose_time(g_settings, wind_rose)
+            wind_rose.wind_rose_bilt(image, rect)
+
             f.rif_spawn(screen, surf, g_settings, rifs)
             f.collied_rifs(ship, rifs, g_settings, players)
             pygame.display.update()
@@ -70,6 +72,7 @@ def main():
                 pygame.time.wait(500)
                 key = 0
             f.check_event(g_settings, wind_rose, ship, players)
+
 
             clock.tick(g_settings.FPS)
             if g_settings.pause_flag:

@@ -14,19 +14,10 @@ def menu_music(sound_name, g_settings):  # Звуковое сопровожде
     pygame.mixer.music.set_volume(g_settings.music_volume)
 
 
-def rotate(img, pos, angle):
-    w, h = img.get_size()
-    img2 = pygame.Surface((w * 2, h * 2), pygame.SRCALPHA)
-    img2.blit(img, (w - pos[0], h - pos[1]))
-    return pygame.transform.rotate(img2, angle)
-
-
-def wind_rose_time(g_settings, wind_rose):  # Поворот розы ветров
-    g_settings.wind_rose_step += 1
-    if g_settings.wind_rose_step > g_settings.wind_rose_second:
-        # wind_rose.wind_rose_turn(g_settings)
-        g_settings.wind_rose_second = randrange(3, 5)  # Время поворота Розы Ветров от n до m секунд
-        g_settings.wind_rose_step = 0
+def wind_rose_time(g_s, w_r):  # Поворот розы ветров
+    image, rect = w_r.rotate_wind_rose(w_r.image, g_s.wind_rose_angle)
+    g_s.wind_rose_angle -= 1 % 360
+    return image, rect
 
 
 def score_save(g_s, players):  # Сохранение счёта игрока
@@ -117,19 +108,6 @@ def all_rif_remove(rifs):  # отчистка коллекции с рифами
 def speed_up(g_s, ship):  # Обновление скорости корабля
     g_s.rif_speed, g_s.ship_speed = ship.s_l[g_s.w][g_s.i][g_s.j]
 
-# def speed_up(g_s, ship):  # Обновление скорости корабля
-#
-# ##### НЕОБХИДИМО ДОБАВИТЬ УСКОРЕНИЕ!!!!!
-#         g_s.rif_speed, g_s.ship_speed = ship.s_l[g_s.w][g_s.i][g_s.j]
-#         # g_s.rif_speed, g_s.ship_speed = ship.s_l[2][1][1]
-#
-#         a = g_s.rif_speed/10
-#
-#         if g_s.rif_speed <= 0.25 or g_s.rif_speed == 0:
-#             g_s.V_speed -= a
-#             print(g_s.V_speed)
-#         if g_s.rif_speed > 0.25 and g_s.V_speed < 2:
-#             g_s.V_speed += a
 
 def skin_load(event, g_settings, ship):  # Управление Скином
 
@@ -224,7 +202,6 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
             g_settings.menu_flag = False
             g_settings.ALL_game = False
 
-
     elif buttons[2].rect.collidepoint(mouse_x, mouse_y) and g_settings.menu_flag:  # Рекорды
         g_settings.menu_flag = False
         g_settings.p_record_flag = True
@@ -266,7 +243,8 @@ def check_event(g_settings, wind_rose, ship, players):  # Проверка вс�
                 g_settings.ALL_game = False
 
         elif event.type == pygame.USEREVENT:
-            wind_rose_time(g_settings, wind_rose)
+            pass
+
 
 
 def screen_up(screen, g_settings, rifs, ship, t_score, top_scor):  # Отрисовка экрана
