@@ -20,24 +20,24 @@ def main():
         pygame.time.set_timer(pygame.USEREVENT, 1000)
         g_settings = Settings()
         screen = pygame.display.set_mode((g_settings.screen_wigth,
-                                          g_settings.screen_height),
-                                          pygame.SCALED | pygame.NOFRAME | pygame.RESIZABLE | pygame.FULLSCREEN)
-
+                                          g_settings.screen_height),)
+        # pygame.SCALED | pygame.NOFRAME | pygame.RESIZABLE | pygame.FULLSCREEN
         int_set = Intro_Menu(g_settings, screen)
-        int_set.intro_load()
+        # int_set.intro_load()  # Загрузка интро при запуске игры
 
         with open("records.json") as file:
-            players = json.load(file)
+            players = json.load(file)  # загрузка данных игроков о рекордах
 
         font = pygame.font.SysFont('Times New Roman', 35)
+
         surf = pygame.Surface((5, 5))
 
-        menu = Menu(g_settings, screen)
+        menu = Menu(g_settings, screen)  # Инициализация меню
 
-        rifs = Group()
-        wind_rose = WindRose(screen)
+        rifs = Group()  # Инициализация группы спрайтов рифов
+        wind_rose = WindRose(screen)  # Инициализация розы ветров
 
-        ship = Ship(screen, g_settings)
+        ship = Ship(screen, g_settings)  # Инициализация корабля
 
         if players and g_settings.name_in in players.keys():
             g_settings.top_score = players[g_settings.name_in]

@@ -27,9 +27,10 @@ class Rif(Sprite):
     def update(self, height, speed):
         if self.y <= self.screen_rect.bottom:
             self.y += speed*self.g_s.kof
+            self.y += speed
             self.rect.y = self.y
         else:
-            self.kill()
+            self.kill()  # Удаление рифа который ушел за край экрана
 
     def get_rif_wigth(self):
         return self.rect.width

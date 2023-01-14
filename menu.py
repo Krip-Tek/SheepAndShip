@@ -106,7 +106,7 @@ class Menu:
 
     def menu_load(self, rifs, players, g_settings, screen, ship):
         pygame.mixer.music.stop()
-        f.menu_music('ship_song_menu')
+        f.menu_music('ship_song_menu', g_settings)
         while self.g_set.menu_flag:
             self.check_event(rifs, players, g_settings, screen, ship)
             self.set_bk_color(g_settings.bk_color)

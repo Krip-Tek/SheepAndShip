@@ -8,7 +8,7 @@ class Ship:
         self.color_path = g_s.color_path
         self.skin = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]  # Default skin
         # Speed list
-        self.s_l = [[[(0.5, -0.5), (0.25, 0), (0, 0)],
+        self.s_l = [[[(0.5, -0.5), (0.25, 0), (0, 0)],  # Speed list
                      [(0.25, -0.25), (0, 0), (0, 0)],
                      [(0, 0), (0, 0), (0, 0)]],
 
@@ -30,13 +30,11 @@ class Ship:
 
         self.g_s = g_s
         self.image = pygame.image.load(f"images/ShipSkin/{g_s.color_path}/5.bmp")
-       # self.x =
         self.rect = self.image.get_rect()
         self.sc = screen
         self.sc_rect = screen.get_rect()
         self.rect.centerx = float(self.sc_rect.centerx)
         g_s.ship_cord = float(self.rect.centerx)
-        #self.x = g_s.ship_cord
         self.rect.bottom = self.sc_rect.bottom - 150
 
     def speed_up(self, as_list_speed):
@@ -58,11 +56,11 @@ class Ship:
             self.g_s.ship_speed = math.fabs(self.g_s.ship_speed)
         if self.rect.right >= self.sc_rect.right:
             self.g_s.ship_speed = -self.g_s.ship_speed
-        #if self.rect.left >= 0 and self.rect.right <= self.sc_rect.right:
         speed_up = self.speed_up(sp)
         self.g_s.ship_speed = (self.g_s.ship_speed+speed_up)*self.g_s.kof
         self.g_s.ship_cord += self.g_s.ship_speed
         self.rect.centerx = self.g_s.ship_cord
+
 
     def sc_up(self, i, j):
         """Обновление скина корабля"""
