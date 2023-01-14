@@ -105,12 +105,12 @@ def collied_rifs(ship, rifs, g_s, players):  # Столкновение кора
             if rect_rif.coin:
                 rifs.remove(rect_rif)
                 g_s.score += 1  # Начисление очков за монету
-            else:
-                score_save(g_s, players)
-                cleaning(g_s,)
-                ship.sc_up(1, 1)
-                ship.blit()
-                all_rif_remove(rifs)
+        #     else:  # Столкновение крабля с рифом
+        #         score_save(g_s, players)
+        #         cleaning(g_s,)
+        #         ship.sc_up(1, 1)
+        #         ship.blit()
+        #         all_rif_remove(rifs)
 
 
 def all_rif_remove(rifs):  # отчистка коллекции с рифами после смерти
