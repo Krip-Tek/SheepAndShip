@@ -22,9 +22,9 @@ def rand_time_rotate():  # Случайный выбор через скольк
 def ship_rotate(g_s, w_r):  # Вращение корабля
     image, rect = w_r.rotate_ship(w_r.image, g_s.ship_angle)
     if g_s.ship_rotate_left and g_s.ship_angle > -90:
-        g_s.ship_angle -= 0.5 % 360
+        g_s.ship_angle -= 1 % 360
     if g_s.ship_rotate_right and g_s.ship_angle < 90:
-        g_s.ship_angle += 0.5 % 360
+        g_s.ship_angle += 1 % 360
     return image, rect
 
 
@@ -131,7 +131,6 @@ def speed_up(g_s, ship):  # Обновление скорости корабля
     g_s.rif_speed, g_s.ship_speed = ship.s_l[g_s.w][g_s.i][g_s.j]
 
 
-
 def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship):  # Уствновка цвета паруса в настройках игры
     if buttons[0].rect.collidepoint(mouse_x, mouse_y):
         g_settings.skin_color = 'red_ship'
@@ -166,7 +165,6 @@ def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship):  # Уствно�
         g_settings.menu_flag = True
 
     ship.ship_skin_load(g_settings.color_path)
-    ship.sc_up(1, 1)
 
 
 def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, screen, ship):  # Проверка нажатия клафиш в меню
@@ -208,6 +206,10 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
 
         rec_board = Records(g_settings, screen)
         rec_board.set_load()
+
+    elif buttons[1].rect.collidepoint(mouse_x, mouse_y) and g_settings.menu_flag:  # Настройки
+        g_settings.menu_flag = False
+        g_settings.g_settings_flag = True
 
         g_s = GameSettings(g_settings, screen, ship)
         g_s.g_set_load()

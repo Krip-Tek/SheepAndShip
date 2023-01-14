@@ -61,17 +61,9 @@ class Ship(pygame.sprite.Sprite):
         img2.blit(img, (w - pos[0], h - pos[1]))
         return pygame.transform.rotate(img2, -angle)
 
-    # def sc_up(self, i, j):
-    #     """Обновление скина корабля"""
-    #     self.image = self.skin[i][j]
-    #
-    # def ship_skin_load(self, color_path):
-    #     """Загрузка скинов из директории"""
-    #     path = 1
-    #     for i in range(0, 3):
-    #         for j in range(0, 3):
-    #             self.skin[i][j] = pygame.image.load(f"images/ShipSkin/{color_path}/"+str(path)+".bmp")
-    #             path += 1
+    def ship_skin_load(self, color_path):
+        """Загрузка скинов из директории"""
+        self.image = pygame.image.load(f"images/ShipSkin/{color_path}/5.bmp")
 
     def ship_blit(self, image, rect):
         """Отрисовка корабля"""
