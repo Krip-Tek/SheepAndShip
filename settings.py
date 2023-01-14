@@ -28,9 +28,6 @@ class Settings:
         self.rif_step = 0  #
         self.rif_second = 1  #
 
-        self.wind_rose_step = 0  #
-        self.wind_rose_second = 0  #
-
         self.rif_spawn_time = 5  # Время очередного спавна рифов
 
         self.point_y = 0  # Условная координата спавна рифов
@@ -55,3 +52,8 @@ class Settings:
         self.alpha = 1
 
         self.new_game_intro = True
+
+        # Флаги управления поворота кораблем
+
+        self.ship_rotate_left = False
+        self.ship_rotate_right = False

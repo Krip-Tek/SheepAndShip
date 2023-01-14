@@ -19,6 +19,15 @@ def rand_time_rotate():  # Случайный выбор через скольк
     return time_r
 
 
+def ship_rotate(g_s, w_r):  # Вращение корабля
+    image, rect = w_r.rotate_ship(w_r.image, g_s.ship_angle)
+    if g_s.ship_rotate_left and g_s.ship_angle > -90:
+        g_s.ship_angle -= 0.5 % 360
+    if g_s.ship_rotate_right and g_s.ship_angle < 90:
+        g_s.ship_angle += 0.5 % 360
+    return image, rect
+
+
 def wind_rose_time(g_s, w_r):  # Поворот розы ветров
     image, rect = w_r.rotate_wind_rose(w_r.image, g_s.wind_rose_angle)
 
@@ -122,28 +131,6 @@ def speed_up(g_s, ship):  # Обновление скорости корабля
     g_s.rif_speed, g_s.ship_speed = ship.s_l[g_s.w][g_s.i][g_s.j]
 
 
-def skin_load(event, g_settings, ship):  # Управление Скином
-
-    if event.key == pygame.K_a:
-        if g_settings.i != 0:
-            g_settings.i -= 1
-        ship.sc_up(g_settings.i, g_settings.j)
-
-    if event.key == pygame.K_d:
-        if g_settings.i != 2:
-            g_settings.i += 1
-        ship.sc_up(g_settings.i, g_settings.j)
-
-    if event.key == pygame.K_LEFT:
-        if g_settings.j != 0:
-            g_settings.j -= 1
-        ship.sc_up(g_settings.i, g_settings.j)
-
-    if event.key == pygame.K_RIGHT:
-        if g_settings.j != 2:
-            g_settings.j += 1
-        ship.sc_up(g_settings.i, g_settings.j)
-
 
 def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship):  # Уствновка цвета паруса в настройках игры
     if buttons[0].rect.collidepoint(mouse_x, mouse_y):
@@ -244,12 +231,21 @@ def check_event(g_settings, wind_rose, ship, players):  # Проверка вс�
             g_settings.ALL_game = False
 
         elif event.type == pygame.KEYDOWN:
-            skin_load(event, g_settings, ship)
+            if event.key == pygame.K_a:
+                g_settings.ship_rotate_left = True
+            if event.key == pygame.K_d:
+                g_settings.ship_rotate_right = True
             pause_start(event, g_settings)
             if event.key == pygame.K_LALT and event.key == pygame.K_F4:
                 g_settings.game_active = False
                 g_settings.menu_flag = False
                 g_settings.ALL_game = False
+
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_a:
+                g_settings.ship_rotate_left = False
+            if event.key == pygame.K_d:
+                g_settings.ship_rotate_right = False
 
         elif event.type == pygame.USEREVENT:
             # Углы на которые поворачивается основа направления ветра

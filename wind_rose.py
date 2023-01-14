@@ -14,7 +14,7 @@ class WindRose(pygame.sprite.Sprite):
 
     def rotate_wind_rose(self, image, angle):
         center_image = (image.get_width() // 2, image.get_height() // 2)
-        image = self.rotate(image, center_image, angle)  # Обратиться к объекту розы ветров
+        image = self.rotate(image, center_image, angle)
         rect = image.get_rect()
         rect.centerx = self.rect.centerx
         rect.centery = self.rect.centery

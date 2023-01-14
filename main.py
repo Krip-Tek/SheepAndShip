@@ -55,14 +55,16 @@ def main():
             if g_settings.menu_flag:
                 menu.menu_load(rifs, players, g_settings, screen, ship)
 
-            ship.ship_skin_load(g_settings.color_path)
+            # ship.ship_skin_load(g_settings.color_path)
 
             top_score = f.top_score(g_settings, font)
             t_score = f.score_comp(g_settings, font)
 
             f.screen_up(screen, g_settings, rifs, ship, t_score, top_score)
             ship.update(g_settings.ship_speed)
-            ship.blit()
+
+            image, rect = f.ship_rotate(g_settings, ship)
+            ship.ship_blit(image, rect)
 
             image, rect = f.wind_rose_time(g_settings, wind_rose)
             wind_rose.wind_rose_bilt(image, rect)

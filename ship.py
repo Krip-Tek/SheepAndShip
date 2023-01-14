@@ -1,13 +1,14 @@
 import pygame
 import math
 
-class Ship:
+
+class Ship(pygame.sprite.Sprite):
     """Корабль"""
 
     def __init__(self, screen, g_s):
+        pygame.sprite.Sprite.__init__(self)
         self.color_path = g_s.color_path
         self.skin = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]  # Default skin
-        # Speed list
         self.s_l = [[[(0.5, -0.5), (0.25, 0), (0, 0)],  # Speed list
                      [(0.25, -0.25), (0, 0), (0, 0)],
                      [(0, 0), (0, 0), (0, 0)]],
@@ -31,24 +32,11 @@ class Ship:
         self.g_s = g_s
         self.image = pygame.image.load(f"images/ShipSkin/{g_s.color_path}/5.bmp")
         self.rect = self.image.get_rect()
-        self.sc = screen
+        self.screen = screen
         self.sc_rect = screen.get_rect()
         self.rect.centerx = float(self.sc_rect.centerx)
         g_s.ship_cord = float(self.rect.centerx)
         self.rect.bottom = self.sc_rect.bottom - 150
-
-    def speed_up(self, as_list_speed):
-        """Укорение игрока, реализующее инерционность движения корабля"""
-        try:
-            if self.g_s.ship_speed < as_list_speed:
-                speed_up = 0.2
-            elif self.g_s.ship_speed > as_list_speed:
-                speed_up = -0.2
-            else:
-                speed_up = 0
-            return speed_up
-        except Exception:
-            print("Что то случилось с ускорением!!!")
 
     def update(self, sp):
         """Движение корабля"""
@@ -56,25 +44,35 @@ class Ship:
             self.g_s.ship_speed = math.fabs(self.g_s.ship_speed)
         if self.rect.right >= self.sc_rect.right:
             self.g_s.ship_speed = -self.g_s.ship_speed
-        speed_up = self.speed_up(sp)
-        self.g_s.ship_speed = (self.g_s.ship_speed+speed_up)*self.g_s.kof
-        self.g_s.ship_cord += self.g_s.ship_speed
-        self.rect.centerx = self.g_s.ship_cord
 
+        self.rect.centerx += self.g_s.ship_speed*self.g_s.kof
 
-    def sc_up(self, i, j):
-        """Обновление скина корабля"""
-        self.image = self.skin[i][j]
+    def rotate_ship(self, image, angle):
+        center_image = (image.get_width() // 2, image.get_height() // 2)
+        image = self.rotate(image, center_image, angle)
+        rect = image.get_rect()
+        rect.centerx = self.rect.centerx
+        rect.centery = self.rect.centery
+        return image, rect
 
-    def ship_skin_load(self, color_path):
-        """Загрузка скинов из директории"""
-        path = 1
-        for i in range(0, 3):
-            for j in range(0, 3):
-                self.skin[i][j] = pygame.image.load(f"images/ShipSkin/{color_path}/"+str(path)+".bmp")
-                path += 1
+    def rotate(self, img, pos, angle):
+        w, h = img.get_size()
+        img2 = pygame.Surface((w * 2, h * 2), pygame.SRCALPHA)
+        img2.blit(img, (w - pos[0], h - pos[1]))
+        return pygame.transform.rotate(img2, -angle)
 
+    # def sc_up(self, i, j):
+    #     """Обновление скина корабля"""
+    #     self.image = self.skin[i][j]
+    #
+    # def ship_skin_load(self, color_path):
+    #     """Загрузка скинов из директории"""
+    #     path = 1
+    #     for i in range(0, 3):
+    #         for j in range(0, 3):
+    #             self.skin[i][j] = pygame.image.load(f"images/ShipSkin/{color_path}/"+str(path)+".bmp")
+    #             path += 1
 
-    def blit(self):
+    def ship_blit(self, image, rect):
         """Отрисовка корабля"""
-        self.sc.blit(self.image, self.rect)
+        self.screen.blit(image, rect)
