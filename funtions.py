@@ -60,25 +60,16 @@ def score_save(g_s, players):  # Сохранение счёта игрока
     with open("records.json", "w") as file:
         json.dump(players, file, indent=4, ensure_ascii=False)
 
-    #
-    # def top_score(g_s, f):
-    #     top_scor = f.render("Рекорд: " + str(g_s.top_score), 1, (95, 0, 144))
-    #     return top_scor
-
 
 def top_score(g_s, f):
-    top_scor = f.render("С: " + str(g_s.ship_speed), 1, (95, 0, 144))
+    top_scor = f.render("Рекорд: " + str(g_s.top_score), 1, (95, 0, 144))
     return top_scor
 
 
 def score_comp(g_s, f):  # Счётчик очков игрока
     g_s.point_y += g_s.rif_speed * g_s.kof
-    t_score = f.render("У: " + str(g_s.ship_force_y), 1, (95, 0, 144))
+    t_score = f.render("Овечки: " + str(g_s.score), 1, (95, 0, 144))
     return t_score
-
-    # g_s.point_y += g_s.rif_speed * g_s.kof
-    # t_score = f.render("Овечки: " + str(g_s.score), 1, (95, 0, 144))
-    # return t_score
 
 
 def rif_spawn(screen, surf, g_s, rifs):  # Спаун рифов
@@ -129,12 +120,12 @@ def collied_rifs(ship, rifs, g_s, players):  # Столкновение кора
             if rect_rif.coin:
                 rifs.remove(rect_rif)
                 g_s.score += 1  # Начисление очков за монету
-        #     else:  # Столкновение крабля с рифом
-        #         score_save(g_s, players)
-        #         cleaning(g_s,)
-        #         ship.sc_up(1, 1)
-        #         ship.blit()
-        #         all_rif_remove(rifs)
+            else:  # Столкновение крабля с рифом
+                score_save(g_s, players)
+                cleaning(g_s,)
+                ship.sc_up(1, 1)
+                ship.blit()
+                all_rif_remove(rifs)
 
 
 def all_rif_remove(rifs):  # отчистка коллекции с рифами после смерти
@@ -205,6 +196,10 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
             score_save(g_settings, players)
             all_rif_remove(rifs)  # Отчистка коллекции рифов
             g_settings.score = 0
+            g_settings.rif_speed = 0
+            g_settings.ship_speed = 0
+            g_settings.ship_angle = 0
+            g_settings.sail_angle = 0
             cleaning(g_settings)  # перемещенеи корабля на исходную позицию
 
         elif g_settings.menu_flag:
@@ -292,28 +287,26 @@ def ship_move_force(g_s):
 
 def speed_up(g_s):
     # вертикальная составляющая
-    g_s.max_speed_x = g_s.ship_force_x*5
+    g_s.max_speed_x = g_s.ship_force_x*g_s.All_speed_kof
 
     if g_s.ship_force_x > 0 and g_s.rif_speed < g_s.max_speed_x:
-        g_s.rif_speed += g_s.ship_force_x/10
+        g_s.rif_speed += g_s.ship_force_x / g_s.All_speed_kof
 
     elif g_s.rif_speed > g_s.min_speed_x:
-        g_s.rif_speed -= 0.033  # Сила торможения
+        g_s.rif_speed -= g_s.stop_force  # Сила торможения
         if g_s.rif_speed <= 0:
             g_s.rif_speed = 0
 
     # горизонтатьная составляющая
+    g_s.max_speed_y = g_s.ship_force_y * g_s.All_speed_kof
 
-    # g_s.max_speed_y = g_s.ship_force_y * 5
-    #
-    # if g_s.ship_force_y > 0 and g_s.ship_speed < g_s.max_speed_y:
-    #     g_s.ship_speed += g_s.ship_force_y/10
-    #     print(g_s.ship_speed)
-    #
-    # elif g_s.ship_speed > g_s.min_speed_y:
-    #     g_s.ship_speed -= 0.033  # Сила торможения
-    #     if g_s.ship_speed <= 0:
-    #         g_s.ship_speed = 0
+    if g_s.ship_force_y != 0 and g_s.ship_speed < math.fabs(g_s.max_speed_y):
+        g_s.ship_speed += math.fabs(g_s.ship_force_y) / g_s.All_speed_kof
+
+    elif math.fabs(g_s.ship_force_y) == 0 and g_s.ship_speed != 0:
+        g_s.ship_speed -= g_s.stop_force  # Сила торможения
+        if g_s.ship_speed <= 0:
+            g_s.ship_speed = 0
 
 
 def screen_up(screen, g_settings, rifs, ship, t_score, top_scor, sail):  # Отрисовка экрана

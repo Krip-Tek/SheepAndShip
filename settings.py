@@ -6,6 +6,8 @@ class Settings:
         self.screen_color = (1, 140, 233)  # Цвет экрана
 
         self.ALL_game = True
+        self.All_speed_kof = 3
+        self.stop_force = 0.005
 
         self.FPS = 60  # Частота кадров
 

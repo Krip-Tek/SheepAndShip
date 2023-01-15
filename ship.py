@@ -19,7 +19,6 @@ class Ship(pygame.sprite.Sprite):
 
     def update(self, g_s):
         """Движение корабля"""
-        g_s.ship_speed = 1
         if self.rect.left <= 0 and g_s.ship_angle < 0:
             self.g_s.ship_speed = 0
         if self.rect.right >= self.sc_rect.right and g_s.ship_angle > 0:
