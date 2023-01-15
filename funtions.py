@@ -112,6 +112,10 @@ def cleaning(g_s):  # Сброс положения корабля и парус
     g_s.score = 0
     g_s.ship_cord = 1366 / 2  # Центровка корабля по центру экрана после смерти
     g_s.ship_speed = 0  # Горизонтальная скорость
+    g_s.rif_speed = 0
+    g_s.ship_speed = 0
+    g_s.ship_angle = 0
+    g_s.sail_angle = 0
 
 
 def collied_rifs(ship, rifs, g_s, players):  # Столкновение корабля и рифа
@@ -123,8 +127,6 @@ def collied_rifs(ship, rifs, g_s, players):  # Столкновение кора
             else:  # Столкновение крабля с рифом
                 score_save(g_s, players)
                 cleaning(g_s,)
-                ship.sc_up(1, 1)
-                ship.blit()
                 all_rif_remove(rifs)
 
 
@@ -196,10 +198,7 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
             score_save(g_settings, players)
             all_rif_remove(rifs)  # Отчистка коллекции рифов
             g_settings.score = 0
-            g_settings.rif_speed = 0
-            g_settings.ship_speed = 0
-            g_settings.ship_angle = 0
-            g_settings.sail_angle = 0
+
             cleaning(g_settings)  # перемещенеи корабля на исходную позицию
 
         elif g_settings.menu_flag:
@@ -293,7 +292,7 @@ def speed_up(g_s):
         g_s.rif_speed += g_s.ship_force_x / g_s.All_speed_kof
 
     elif g_s.rif_speed > g_s.min_speed_x:
-        g_s.rif_speed -= g_s.stop_force  # Сила торможения
+        g_s.rif_speed -= g_s.stop_force*3  # Сила торможения
         if g_s.rif_speed <= 0:
             g_s.rif_speed = 0
 

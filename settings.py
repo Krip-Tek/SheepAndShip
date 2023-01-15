@@ -40,10 +40,6 @@ class Settings:
         self.ship_force_x = 0  # сила корабля по X
         self.ship_force_y = 0  # сила корабля по Y
 
-        # self.i = 1
-        # self.j = 1
-        # self.w = 2
-
         self.kof = 1  # Значение коэффициента увеличивающего скороcть игры
 
         self.rif_spawn_time = 5  # Время очередного спавна рифов
