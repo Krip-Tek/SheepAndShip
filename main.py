@@ -60,7 +60,7 @@ def main():
             top_score = f.top_score(g_settings, font)
             t_score = f.score_comp(g_settings, font)
 
-            f.screen_up(screen, g_settings, rifs, ship, t_score, top_score)
+            f.screen_up(screen, g_settings, rifs, ship, t_score, top_score, sail)
 
             image, rect = f.ship_rotate(g_settings, ship)
             ship.ship_blit(image, rect)

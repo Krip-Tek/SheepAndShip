@@ -15,6 +15,10 @@ class Sail(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = ship.rect.center
 
+    def move_sail(self, ship):
+        self.rect.center = ship.rect.center
+        pass
+
     def rotate_sail(self, image, angle):
         center_image = (image.get_width() // 2, image.get_height() // 2)
         image = self.rotate(image, center_image, angle)

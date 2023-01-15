@@ -12,6 +12,11 @@ class Settings:
         self.ship_speed = 0  # Горизонтальная скорость
         self.max_speed_x = 0
         self.min_speed_x = 0
+
+        self.ship_cord = 0
+
+        self.max_speed_y = 0
+        self.min_speed_y = 0
         self.basic_ship_speed = 0
 
         self.rif_speed = 0  # Вертикальная скороcть

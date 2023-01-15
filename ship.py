@@ -7,27 +7,6 @@ class Ship(pygame.sprite.Sprite):
 
     def __init__(self, screen, g_s):
         pygame.sprite.Sprite.__init__(self)
-        # self.color_path = g_s.color_path
-        # self.skin = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]  # Default skin
-        # self.s_l = [[[(0.5, -0.5), (0.25, 0), (0, 0)],  # Speed list
-        #              [(0.25, -0.25), (0, 0), (0, 0)],
-        #              [(0, 0), (0, 0), (0, 0)]],
-        #
-        #             [[(0.25, -0.25), (0.75, 0), (0.25, 0.25)],
-        #              [(0.5, -0.5), (0.5, 0), (0, 0)],
-        #              [(0.25, -0.25), (0, 0), (0, 0)]],
-        #
-        #             [[(0, 0), (0.25, 0), (0.5, 0.5)],
-        #              [(0.25, -0.25), (1, 0), (0.25, 0.25)],
-        #              [(0.5, -0.5), (0.25, 0), (0, 0)]],
-        #
-        #             [[(0, 0), (0, 0), (0.25, 0.25)],
-        #              [(0, 0), (0.5, 0), (0.5, 0.5)],
-        #              [(0.25, -0.25), (0.75, 0), (0.25, 0.25)]],
-        #
-        #             [[(0, 0), (0, 0), (0, 0)],
-        #              [(0, 0), (0, 0), (0.25, 0.25)],
-        #              [(0, 0), (0.25, 0), (0.5, 0.5)]]]
 
         self.g_s = g_s
         self.image = pygame.image.load(f"images/ShipSkin/ship.bmp")
@@ -40,13 +19,20 @@ class Ship(pygame.sprite.Sprite):
 
     def update(self, g_s):
         """Движение корабля"""
+        g_s.ship_speed = 1
+        if self.rect.left <= 0 and g_s.ship_angle < 0:
+            self.g_s.ship_speed = 0
+        if self.rect.right >= self.sc_rect.right and g_s.ship_angle > 0:
+            self.g_s.ship_speed = 0
 
-        if self.rect.left <= 0:
-            self.g_s.ship_speed = math.fabs(self.g_s.ship_speed)
-        if self.rect.right >= self.sc_rect.right:
-            self.g_s.ship_speed = -self.g_s.ship_speed
+        if g_s.ship_angle < 0:
+            g_s.ship_cord -= g_s.ship_speed
+        elif g_s.ship_angle > 0:
+            g_s.ship_cord += g_s.ship_speed
+        else:
+            g_s.ship_speed = 0
 
-        self.rect.centerx += self.g_s.ship_speed * self.g_s.kof
+        self.rect.centerx = g_s.ship_cord
 
     def rotate_ship(self, image, angle):
         center_image = (image.get_width() // 2, image.get_height() // 2)
@@ -61,7 +47,6 @@ class Ship(pygame.sprite.Sprite):
         img2 = pygame.Surface((w * 2, h * 2), pygame.SRCALPHA)
         img2.blit(img, (w - pos[0], h - pos[1]))
         return pygame.transform.rotate(img2, -angle)
-
 
     def ship_blit(self, image, rect):
         """Отрисовка корабля"""

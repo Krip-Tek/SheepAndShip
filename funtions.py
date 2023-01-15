@@ -67,13 +67,13 @@ def score_save(g_s, players):  # Сохранение счёта игрока
 
 
 def top_score(g_s, f):
-    top_scor = f.render("С: " + str(g_s.rif_speed), 1, (95, 0, 144))
+    top_scor = f.render("С: " + str(g_s.ship_speed), 1, (95, 0, 144))
     return top_scor
 
 
 def score_comp(g_s, f):  # Счётчик очков игрока
     g_s.point_y += g_s.rif_speed * g_s.kof
-    t_score = f.render("У: " + str(g_s.ship_force_x), 1, (95, 0, 144))
+    t_score = f.render("У: " + str(g_s.ship_force_y), 1, (95, 0, 144))
     return t_score
 
     # g_s.point_y += g_s.rif_speed * g_s.kof
@@ -286,11 +286,12 @@ def ship_move_force(g_s):
     g_s.sail_force = g_s.wind_force*(math.cos(math.radians(g_s.wind_rose_angle) - math.radians(g_s.sail_angle)))
     if g_s.sail_force <= 0:
         g_s.sail_force = 0
-    g_s.ship_force_x = g_s.sail_force*(math.cos(math.radians(g_s.ship_angle)))
-    g_s.ship_force_y = g_s.sail_force*(math.sin(math.radians(g_s.ship_angle)))
+    g_s.ship_force_x = g_s.sail_force * (math.cos(math.radians(g_s.ship_angle)))
+    g_s.ship_force_y = g_s.sail_force * (math.sin(math.radians(g_s.ship_angle)))
 
 
 def speed_up(g_s):
+    # вертикальная составляющая
     g_s.max_speed_x = g_s.ship_force_x*5
 
     if g_s.ship_force_x > 0 and g_s.rif_speed < g_s.max_speed_x:
@@ -301,19 +302,28 @@ def speed_up(g_s):
         if g_s.rif_speed <= 0:
             g_s.rif_speed = 0
 
-    # if g_s.ship_force_y and g_s.ship_speed < g_s.max_speed:
-    #     g_s.ship_speed += g_s.ship_force_y
-    # else:
-    #     g_s.ship_speed -= 0.4*g_s.wind_force
+    # горизонтатьная составляющая
+
+    # g_s.max_speed_y = g_s.ship_force_y * 5
+    #
+    # if g_s.ship_force_y > 0 and g_s.ship_speed < g_s.max_speed_y:
+    #     g_s.ship_speed += g_s.ship_force_y/10
+    #     print(g_s.ship_speed)
+    #
+    # elif g_s.ship_speed > g_s.min_speed_y:
+    #     g_s.ship_speed -= 0.033  # Сила торможения
+    #     if g_s.ship_speed <= 0:
+    #         g_s.ship_speed = 0
 
 
-def screen_up(screen, g_settings, rifs, ship, t_score, top_scor):  # Отрисовка экрана
+def screen_up(screen, g_settings, rifs, ship, t_score, top_scor, sail):  # Отрисовка экрана
     screen.fill(g_settings.screen_color)
     ship_move_force(g_settings)
 
     speed_up(g_settings)
     rifs.update(g_settings)
     ship.update(g_settings)
+    sail.move_sail(ship)
 
     rifs.draw(screen)
     screen.blit(top_scor, (25, 25))
