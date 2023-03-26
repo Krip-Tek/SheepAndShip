@@ -1,2 +1,2 @@
 # SheepAndShip
-This first projekt
+This first projeсt
