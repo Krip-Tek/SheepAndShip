@@ -89,7 +89,7 @@ def rifs_spawn(screen, rifs, g_settings):  # генерация рифов
         position += buf
         shans = randrange(1, 100)  # Шанс спавна рифа
         shans_2 = randrange(40, 60)  # Шанс необходимый шанс для спавна рифа
-        rand_div_y = randrange(-30, 30, 10)  # Отколонение по Y
+        rand_div_y = randrange(-30, 30, 10)  # Отклонение по Y
 
         if shans < shans_2:
             num_rifs = randrange(1, 3)
@@ -122,7 +122,7 @@ def collied_rifs(ship, rifs, g_s, players):  # Столкновение кора
             if rect_rif.coin:
                 rifs.remove(rect_rif)
                 g_s.score += 1  # Начисление очков за спасение овцы
-            else:  # Столкновение крабля с рифом
+            else:  # Столкновение корабля с рифом
                 score_save(g_s, players)
                 cleaning(g_s,)
                 all_rif_remove(rifs)
@@ -133,7 +133,7 @@ def all_rif_remove(rifs):  # отчистка коллекции с рифами
         rifs.remove(rif)
 
 
-def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship, sail):  # Уствновка цвета паруса в настройках игры
+def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship, sail):  # Установка цвета паруса в настройках игры
     if buttons[0].rect.collidepoint(mouse_x, mouse_y):
         g_settings.skin_color = 'red_ship'
         g_settings.bk_color = 'red_bk'
@@ -294,7 +294,7 @@ def speed_up(g_s):
         if g_s.rif_speed <= 0:
             g_s.rif_speed = 0
 
-    # горизонтатьная составляющая
+    # горизонтальная составляющая
     g_s.max_speed_y = g_s.ship_force_y * g_s.All_speed_kof
 
     if g_s.ship_force_y != 0 and g_s.ship_speed < math.fabs(g_s.max_speed_y):
