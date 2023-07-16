@@ -4,15 +4,14 @@ import json
 
 class Records:
 
-    def __init__(self, g_setings, screen):
-        self.g_set = g_setings
+    def __init__(self, g_settеings, screen):
+        self.g_set = g_settеings
         self.screen = screen
         self.backscreen = pygame.image.load(f"images/Records/Settings_back.bmp")
         self.screen_rect = self.screen.get_rect()
         self.font = pygame.font.SysFont('Times New Roman', 35)
 
     def check_event(self):
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()

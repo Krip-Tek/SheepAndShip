@@ -48,8 +48,6 @@ def wind_rose_time(g_s, w_r):  # Поворот розы ветров
         g_s.wind_rose_angle -= 0.25 % 360
     else:
         g_s.basic_wing_angle += randrange(-3, 3)  # Флуктуации ветра
-        pass
-
     return image, rect
 
 
@@ -120,10 +118,10 @@ def cleaning(g_s):  # Сброс положения корабля и парус
 
 def collied_rifs(ship, rifs, g_s, players):  # Столкновение корабля и рифа
     for rect_rif in rifs:
-        if ship.rect.colliderect(rect_rif):
+        if pygame.sprite.collide_mask(ship, rect_rif):  # столкновение корпуса корабля, парус не обрабатывается
             if rect_rif.coin:
                 rifs.remove(rect_rif)
-                g_s.score += 1  # Начисление очков за монету
+                g_s.score += 1  # Начисление очков за спасение овцы
             else:  # Столкновение крабля с рифом
                 score_save(g_s, players)
                 cleaning(g_s,)
@@ -172,7 +170,7 @@ def ship_skin_set(g_settings, buttons, mouse_x, mouse_y, ship, sail):  # Уст�
 
 
 def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, screen,
-                      ship, sail):  # Проверка нажатия клафиш в меню
+                      ship, sail):  # Проверка нажатия клавиш в меню
     if buttons[0].rect.collidepoint(mouse_x, mouse_y):  # Загрузка меню
 
         if not g_settings.game_active and not g_settings.menu_flag:
@@ -199,10 +197,10 @@ def check_play_button(rifs, g_settings, buttons, mouse_x, mouse_y, players, scre
             all_rif_remove(rifs)  # Отчистка коллекции рифов
             g_settings.score = 0
 
-            cleaning(g_settings)  # перемещенеи корабля на исходную позицию
+            cleaning(g_settings)  # перемещение корабля на исходную позицию
 
-        elif g_settings.menu_flag:
-            score_save(g_settings, players)
+        elif g_settings.menu_flag:  # Игрок выходит в меню
+            score_save(g_settings, players)  # Сохранение данных после выхода в меню
             g_settings.menu_flag = False
             g_settings.ALL_game = False
 

@@ -96,7 +96,6 @@ class Menu:
 
             self.button_move(mouse_x, mouse_y)
 
-
     def backscreen_blit(self):
         self.screen.blit(self.backscreen, self.screen_rect)
 

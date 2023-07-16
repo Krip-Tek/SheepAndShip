@@ -1,12 +1,12 @@
 import pygame.font
-from settings import Settings
+
 
 class Button:
 
     def __init__(self, screen, msg, x_position, y_position):
-        if msg in ['PlayButton', 'SettingsButton', 'RecordsButton', 'ExitButton']:  # Загрузка изобрадений кнопок меню
+        if msg in ['PlayButton', 'SettingsButton', 'RecordsButton', 'ExitButton']:  # Загрузка изображений кнопок меню
             self.image = pygame.image.load(f"images/Menu/{msg}.bmp").convert_alpha()
-        if msg in ['red_ship', 'yellow_ship', 'green_ship', 'black_ship']:  # Загрузка изображений кнопок настрек
+        if msg in ['red_ship', 'yellow_ship', 'green_ship', 'black_ship']:  # Загрузка изображений кнопок настроек
             self.image = pygame.image.load(f"images/Settings/{msg}.bmp").convert_alpha()
 
         self.screen = screen
